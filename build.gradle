@@ -32,6 +32,11 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-gson:$ktor_version"
+    //DI
     implementation "org.koin:koin-ktor:$koin_version"
+    //DB
+    compile "org.jetbrains.exposed:exposed-core:$exposed_version"
+    compile "org.jetbrains.exposed:exposed-dao:$exposed_version"
+    compile "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 }

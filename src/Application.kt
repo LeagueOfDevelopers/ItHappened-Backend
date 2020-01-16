@@ -10,6 +10,10 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.koin.core.context.startKoin
+import ru.lod_misis.di.eventGroupModule
+import ru.lod_misis.di.eventModule
+import ru.lod_misis.di.userModule
 import ru.lod_misis.routes.authRoutes
 import ru.lod_misis.routes.eventGroupRoutes
 import ru.lod_misis.routes.eventRoutes
@@ -17,6 +21,9 @@ import ru.lod_misis.routes.eventRoutes
 data class ItHappened(val name: String, val version: String)
 
 fun main() {
+    startKoin {
+        modules(listOf(userModule, eventModule, eventGroupModule))
+    }
     val server = embeddedServer(Netty, port = 8080) {
         install(ContentNegotiation) {
             gson {
