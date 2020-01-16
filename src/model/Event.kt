@@ -10,6 +10,7 @@ data class Event(
     var scale: Double?,
     var coordinates: Coordinates?,
     var filePath: String?,
+    var date: String = Date().toString(),
     var isDeleted: Boolean = false
 ) {
 

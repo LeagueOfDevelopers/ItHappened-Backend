@@ -1,11 +1,13 @@
 package ru.lod_misis.repository
 
+import ru.lod_misis.dto.EditEventRequestModel
+import ru.lod_misis.dto.NewEventRequestModel
 import ru.lod_misis.model.Event
 import java.util.*
 
 interface EventRepository {
-    fun addEvent(event: Event): Event
-    fun changeEvent(newEvent: Event): Event
+    fun addEvent(newEvent: NewEventRequestModel): Event
+    fun changeEvent(newEvent: EditEventRequestModel, eventId: UUID): Event
     fun deleteEvent(eventId: UUID): Event
     fun getAllEvents(): List<Event>
     fun getEventById(eventId: UUID): Event

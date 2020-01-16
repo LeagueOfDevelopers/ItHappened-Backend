@@ -1,6 +1,8 @@
 package ru.lod_misis.data
 
 import ru.lod_misis.EventNotFoundException
+import ru.lod_misis.dto.EditEventRequestModel
+import ru.lod_misis.dto.NewEventRequestModel
 import ru.lod_misis.model.Coordinates
 import ru.lod_misis.model.Event
 import ru.lod_misis.repository.EventRepository
@@ -56,16 +58,33 @@ class EventRepositoryImpl : EventRepository {
         )
     )
 
-    override fun addEvent(event: Event): Event {
+    override fun addEvent(newEvent: NewEventRequestModel): Event {
+        val event = Event(
+            id = UUID.randomUUID(),
+            groupId = newEvent.groupId,
+            comment = newEvent.comment,
+            rating = newEvent.rating,
+            scale = newEvent.scale,
+            coordinates = newEvent.coordinates,
+            date = newEvent.date,
+            filePath = null
+        )
         events.add(event)
         return event
     }
 
-    override fun changeEvent(newEvent: Event): Event {
-        val event = events.find { newEvent.id == it.id } ?: throw EventNotFoundException()
+    override fun changeEvent(newEvent: EditEventRequestModel, eventId: UUID): Event {
+        val event = events.find { eventId == it.id } ?: throw EventNotFoundException()
         events.remove(event)
-        events.add(newEvent)
-        return newEvent
+        event.apply {
+            if (newEvent.comment != null) comment = newEvent.comment
+            if (newEvent.rating != null) rating = newEvent.rating
+            if (newEvent.scale != null) scale = newEvent.scale
+            if (newEvent.coordinates != null) coordinates = newEvent.coordinates
+            if (newEvent.date != null) date = newEvent.date
+        }
+        events.add(event)
+        return event
     }
 
     override fun deleteEvent(eventId: UUID): Event {
