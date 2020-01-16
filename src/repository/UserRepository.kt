@@ -1,5 +1,5 @@
 package ru.lod_misis.repository
 
 interface UserRepository {
-    //TODO
+    //TODO https://github.com/dedalexij
 }
