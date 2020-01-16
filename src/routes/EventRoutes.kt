@@ -22,11 +22,11 @@ fun Route.eventRoutes() {
     route("/event") {
         get("/") {
             val events = eventRepository.getAllEvents()
-            call.response.header("Content-Type", "application/json")
+            call.response.header("Context-Type", "application/json")
             call.respond(HttpStatusCode.OK, events)
         }
         get("/{id}") {
-            call.response.header("Content-Type", "application/json")
+            call.response.header("Context-Type", "application/json")
             try {
                 val event = eventRepository.getEventById(UUID.fromString(call.parameters["id"]))
                 call.respond(HttpStatusCode.OK, event)
@@ -37,7 +37,7 @@ fun Route.eventRoutes() {
             }
         }
         post("/") {
-            call.response.header("Content-Type", "application/json")
+            call.response.header("Context-Type", "application/json")
             try {
                 val newEventData = call.receive<NewEventRequestModel>()
                 val addedEvent = eventRepository.addEvent(newEventData)
@@ -47,7 +47,7 @@ fun Route.eventRoutes() {
             }
         }
         put("/{id}") {
-            call.response.header("Content-Type", "application/json")
+            call.response.header("Context-Type", "application/json")
             try {
                 val fieldsToEdit = call.receive<EditEventRequestModel>()
                 val eventId = UUID.fromString(call.parameters["id"])
@@ -62,7 +62,7 @@ fun Route.eventRoutes() {
             }
         }
         delete("/{id}") {
-            call.response.header("Content-Type", "application/json")
+            call.response.header("Context-Type", "application/json")
             try {
                 val deletedEvent = eventRepository.deleteEvent(UUID.fromString(call.parameters["id"]))
                 call.respond(HttpStatusCode.OK, deletedEvent)
