@@ -1,13 +1,33 @@
 package ru.lod_misis
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.response.header
+import io.ktor.response.respond
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+data class ItHappened(val name: String, val version: String)
 
-@Suppress("unused") // Referenced in application.conf
-@kotlin.jvm.JvmOverloads
-fun Application.module(testing: Boolean = false) {
+fun main() {
+    val server = embeddedServer(Netty, port = 8080) {
+        install(ContentNegotiation) {
+            gson {
+                setPrettyPrinting()
+                serializeNulls()
+            }
+        }
+        routing {
+            get("/") {
+                call.response.header("Context-Type", "application/json")
+                call.respond(ItHappened("ItHappened", "v2.0"))
+            }
+        }
+    }
+    server.start(wait = true)
 }
 
