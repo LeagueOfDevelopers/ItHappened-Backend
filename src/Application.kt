@@ -11,6 +11,8 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import ru.lod_misis.routes.authRoutes
+import ru.lod_misis.routes.eventGroupRoutes
+import ru.lod_misis.routes.eventRoutes
 
 data class ItHappened(val name: String, val version: String)
 
@@ -28,6 +30,8 @@ fun main() {
                 call.respond(ItHappened("ItHappened", "v2.0"))
             }
             authRoutes()
+            eventRoutes()
+            eventGroupRoutes()
         }
     }
     server.start(wait = true)
